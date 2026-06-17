@@ -1,48 +1,38 @@
-# MIPS Processor Showcase
+# 32-Bit Single-Cycle MIPS Processor
 
-A modern, interactive web dashboard showcasing a 32-bit single-cycle MIPS System on Chip (SOC) implemented by [Akshat Baranwal](https://github.com/11mosfets).
+A custom 32-bit MIPS Processor implemented entirely in SystemVerilog. This repository contains the complete Register Transfer Level (RTL) design, testbenches, and documentation for a functional single-cycle CPU.
 
-![MIPS Processor Showcase](https://img.shields.io/badge/Architecture-32--Bit_MIPS-blue) ![Status](https://img.shields.io/badge/Status-Completed-success)
+![Status](https://img.shields.io/badge/Status-Completed-success) ![Language](https://img.shields.io/badge/Language-SystemVerilog-blue)
 
-## Overview
+## Project Overview
 
-This repository contains the front-end code for the MIPS Processor interactive dashboard. The site serves as a visual portfolio piece, highlighting the architectural features and instruction set of a custom MIPS SOC. 
+This project implements a non-pipelined, single-cycle MIPS System on Chip (SOC). It demonstrates a deep understanding of computer architecture by implementing the complete datapath and control logic required to execute a core subset of the MIPS instruction set architecture (ISA).
 
-The dashboard features:
-- **Interactive High-Level Block Diagram**: A sleek, Mermaid-rendered diagram of the core datapath, memory, and control unit routing.
-- **Architecture Specifications**: Quick-glance metrics detailing the 32-bit datapath, Harvard architecture, single-cycle execution, and active instruction count.
-- **Instruction Set Reference**: A dynamic grid of the 32 supported MIPS instructions. Hovering over any instruction tag reveals a custom tooltip containing its exact RTL (Register Transfer Level) formula based strictly on the official Patterson & Hennessy MIPS "Greencard".
-- **Modern Glassmorphism UI**: A premium dark-mode aesthetic built with smooth animations, dynamic glowing background effects, and responsive CSS grid layouts.
+### Key Architectural Features
+- **32-Bit Datapath**: Full 32-bit registers, ALU, and data buses.
+- **Harvard Architecture**: Separate instruction and data memories.
+- **Single-Cycle Execution**: Every instruction is fetched, decoded, executed, and written back within a single clock cycle.
+- **Extensive Instruction Set**: Supports 32 fundamental MIPS instructions including Arithmetic/Logic (ADD, SUB, AND, OR), Branching (BEQ, BNE), Jumps (J, JAL, JR), and Memory Operations (LW, SW).
 
-## Technologies Used
+## Hardware Implementation Details
 
-- **HTML5**: Semantic layout and structure.
-- **Vanilla CSS3**: Custom properties, Flexbox, CSS Grid, keyframe animations, and glassmorphism styling (`backdrop-filter`).
-- **Vanilla JavaScript**: Dynamic DOM manipulation for generating instruction tags, stagger animations, and tooltip attributes.
-- **[Mermaid JS](https://mermaid.js.org/)**: Diagram rendering for the High-Level Block Diagram.
-- **Typography**: [Inter](https://fonts.google.com/specimen/Inter) for UI elements and [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) for code/instructions.
+The processor is modularized into several key SystemVerilog components:
+- **`cpu2.sv`**: The top-level CPU module containing the main control unit logic, wire routing, and module instantiations.
+- **`alu.sv`**: The Arithmetic Logic Unit, responsible for performing all mathematical and bitwise operations.
+- **`regfile.sv`**: A 32x32-bit register file with asynchronous reads and synchronous writes.
+- **`pc.sv`**: Program Counter module to track execution flow.
+- **`instr_reg.sv`**: Instruction decoder logic based on the MIPS opcode and funct fields.
+- **`memory.sv`**: Simulates the separate instruction and data memories.
+- **`top_cpu2.sv`**: The primary testbench for simulating execution, loading hex programs (e.g., `prog_i.txt`), and verifying output state via register file dumps.
 
-## Setup & Running Locally
+## Simulation & Testing
 
-Since this is a fully static website built with vanilla web technologies, there is no complicated build step required.
+The CPU can be simulated using standard Verilog simulators (e.g., ModelSim, VCS, or Verilator). The provided testbench (`top_cpu2.sv`) runs the processor against loaded instructions and asserts on illegal instructions and halts.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/11mosfets/mips.git
-   ```
-2. Navigate into the directory:
-   ```bash
-   cd mips
-   ```
-3. Open `index.html` directly in your favorite web browser, or serve it using a local development server for the best experience (e.g., Python's simple HTTP server):
-   ```bash
-   python3 -m http.server 8000
-   ```
-4. Visit `http://localhost:8000` to view the dashboard.
+## Interactive Web Dashboard
 
-## Acknowledgements
-
-- RTL operations and instruction definitions were extracted from the *Computer Organization and Design (5th Edition)* MIPS Reference Data Card ("Greencard").
+To explore the architecture, datapath, and detailed RTL formulas of the supported instructions, check out the interactive showcase:
+👉 **[Live MIPS Web Dashboard](https://mips-ex1.pages.dev)**
 
 ---
 &copy; 2026 Akshat Baranwal. All Rights Reserved.
